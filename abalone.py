@@ -17,8 +17,10 @@ test_data = test_data.replace(to_replace=['M', 'F', 'I'], value=[1, 2, 3])
 X = train_data.iloc[:, 0:8]
 y = train_data.iloc[:, 8]
 
+# 从训练集中划分出验证集
 X_train, X_val, y_train, y_val = train_test_split(X, y, random_state=1, test_size=0.1)
 
+# 实例化线性回归对象，并训练模型
 linreg = LinearRegression()
 linreg.fit(X_train, y_train)
 
@@ -29,10 +31,11 @@ y_pred = linreg.predict(X_val)
 print ("MSE:",metrics.mean_squared_error(y_val, y_pred))
 print ("RMSE:",np.sqrt(metrics.mean_squared_error(y_val, y_pred)))
 
+# 预测测试数据
 y_pred_test = linreg.predict(test_data).tolist()
-
 y_pred_test = [round(p, 2) for p in y_pred_test]
 
+#生成提交结果的文本
 with open('result.txt', 'w') as f:
     for r in y_pred_test:
         f.write(str(r) + '\n')
